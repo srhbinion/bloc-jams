@@ -12,7 +12,7 @@ body.landing {
  }
  
  .hero-content .hero-title {
-     position: absolute; /* #setp landing.css, If I remove this text moves to top = bug! */
+     position: absolute;
      top: 40%;
      -webkit-transform: translateY(-50%);
      -moz-transform: translateY(-50%);
