@@ -47,15 +47,23 @@ body.album {
 }
 
 .song-item-number {
-    width: 5%;
+    width: 10%;
+    text-align: left;
 }
 
 .song-item-title {
-    width: 85%;
+    width: 80%;
+    text-align: left;
 }
 
 .song-item-duration {
-    width: 5%;
+    width: 10%;
+    text-align: left;
+}
+
+.song-item-plays {
+    width: 10%;
+    text-align: right;
 }
 
 /*Responsive - smaller devices*/
