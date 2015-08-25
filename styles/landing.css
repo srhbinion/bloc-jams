@@ -38,10 +38,11 @@ body.landing {
      -webkit-transform: scaleX(0.9) translateY(3rem);
      -moz-transform: scaleX(0.9) translateY(3rem);
      transform: scaleX(0.9) translateY(3rem);
-     -webkit-transition: all 0.25s ease-in-out;
-     -moz-transition: all 0.25s ease-in-out;
-     transition: all 0.25s ease-in-out;
-     -webkit-transition-delay: 0.2s;
+     /* transition: <property> <duration> <timing-function> <delay> */
+     -webkit-transition: all 0.3s ease-in-out 0.3s;
+     -moz-transition: all 0.3s ease-in-out 0.3s;
+     transition: all 0.3s ease-in-out 0.3s; 
+     -webkit-transition-delay: 0.2s; 
      -moz-transition-delay: 0.2s;
      transition-delay: 0.2s;
  }
