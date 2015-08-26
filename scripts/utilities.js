@@ -1,7 +1,10 @@
 var collectionArray = document.getElementsByClassName('collection');
 
-var forEach = function(element) {
-    console.log(element);
+var collectionPlaylist = function(element) {
+    for (i=0; collectionArray.length > i; i++) {
+        console.log(element);
     };
 }
-    
+
+collectionArray.forEach(collectionPlaylist);  
+
