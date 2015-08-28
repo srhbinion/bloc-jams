@@ -1,10 +1,11 @@
-var collectionArray = document.getElementsByClassName('collection');
+//HTMLCollection.prototype.forEach = function(callback) {
+//    for (var i = 0; i < this.length; i++) {
+//        callback(this[i]);
+//    };
+//};
 
-var collectionPlaylist = function(element) {
-    for (i=0; collectionArray.length > i; i++) {
-        console.log(element);
+var forEach = function(array, callback) {
+    for (var i = 0; i < array.length; i++) {
+        callback(array[i]);
     };
-}
-
-collectionArray.forEach(collectionPlaylist);  
-
+};
