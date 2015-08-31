@@ -24,6 +24,5 @@ window.onload = function() {
         if (pointsArray[0].getBoundingClientRect().top <= 500) {
             animatePoints(pointsArray);
         }   
-    }); 
-    
+    });   
 };
