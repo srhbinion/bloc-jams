@@ -85,10 +85,13 @@ window.onload = function() {
     
     var playList = [albumPicasso, albumMarconi, albumWarhol];
     
-    window.addEventListener('click', function(event) {
-        var i = 0;
-        for (; i < playList.length; i++) { 
-            setCurrentAlbum(playList[i]);
+    window.addEventListener('click', function(event){
+        if (setCurrentAlbum(albumPicasso) === albumPicasso) {
+            setCurrentAlbum(albumMarconi);
+        } else if (setCurrentAlbum(albumMarconi) === albumMarconi) {
+            setCurrentAlbum(albumWarhol)
+        } else {
+            setCurrentAlbum(albumWarhol)
         };
     });      
 };
