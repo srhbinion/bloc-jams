@@ -60,13 +60,13 @@ body.album {
 
 .album-song-button {
     text-align: center;
-    font-size: 14px;
-    background-color: white;
+    font-size: 15px;
+    background-color: ghostwhite;
     color: rgb(210,40,123);
     border-radius: 50% 50%;
     display: inline-block;
-    width: 28px;
-    height: 28px;   
+    width: 22px;
+    height: 22px;   
 }
 
 .album-song-button: hover {
