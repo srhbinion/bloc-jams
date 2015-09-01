@@ -83,17 +83,17 @@ window.onload = function() {
    
     setCurrentAlbum(albumPicasso);
     
-    var playList = [albumPicasso, albumMarconi, albumWarhol];
-    
-    window.addEventListener('click', function(event){
+    window.addEventListener('mousedown', function(event){
         if (setCurrentAlbum(albumPicasso) === albumPicasso) {
             setCurrentAlbum(albumMarconi);
-        } else if (setCurrentAlbum(albumMarconi) === albumMarconi) {
-            setCurrentAlbum(albumWarhol)
-        } else {
-            setCurrentAlbum(albumWarhol)
         };
-    });      
+    });  
+    
+    window.addEventListener('mousedown', function(event){
+        if (setCurrentAlbum(albumMarconi) === albumMarconi) {
+            setCurrentAlbum(albumWarhol);
+        };
+    }); 
 };
 
 
