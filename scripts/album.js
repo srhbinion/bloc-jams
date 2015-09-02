@@ -67,6 +67,8 @@ var setCurrentAlbum = function (album) {
  
 };
 
+// look up the DOM tree to select a parent element. 
+//document.body.parentElement; - Returns the <html> element
 var findParentByClassName = function (element, targetClass) {
     var currentParent = element.parentElement;
     
