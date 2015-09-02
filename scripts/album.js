@@ -104,7 +104,7 @@ var clickHandler = function (targetElement) {
     var songItem = getSongItem(targetElement);
     
     if (currentlyPlayingSong === null) {
-        songItem.innerHTML = playButtonTemplate;
+        songItem.innerHTML = pauseButtonTemplate;
         currentlyPlayingSong = songItem.getAttribute("data-song-number");
     } else if (currentlyPlayingSong === songItem.getAttribute("data-song-number")) {
         songItem.innerHTML = playButtonTemplate;
