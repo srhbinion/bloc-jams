@@ -100,6 +100,7 @@ var getSongItem = function (element) {
             
 };
 
+//switch play button to pause button
 var clickHandler = function (targetElement) {
     var songItem = getSongItem(targetElement);
     
