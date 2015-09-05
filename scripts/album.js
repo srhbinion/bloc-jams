@@ -73,17 +73,19 @@ var findParentByClassName = function (element, targetClass) {
     
     var currentParent = element.parentElement;
     
-    if (currentParent.className !== targetClass) {
-        currentParent = currentParent.parentElement
-        return currentParent;
+    while (currentParent.className !== targetClass) {
+        currentParent = currentParent.parentElement;
      
     //check if parent element exhists   
     } else if (element.parentElement !== targetClass) {
-        alert "No parent found with that class name.";
+        alert "No parent found within this class name.";
     
     //check if parent element exhists with a given class name
-    } if else (element.parentElement !== currentParent) {
+    } else if (element.parentElement !== currentParent) {
         alert "No parent found!";
+    
+    } else {
+        return currentParent;
     }
 };
 
@@ -108,7 +110,6 @@ var getSongItem = function (element) {
             
 };
 
-//switch play button to pause button
 var clickHandler = function (targetElement) {
     var songItem = getSongItem(targetElement);
     
