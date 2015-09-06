@@ -9,7 +9,7 @@
 type="text/css" href="styles/normalize.css">
         <link rel="stylesheet" type="text/css" href="styles/main.css">
         <link rel="stylesheet" type="text/css" href="styles/album.css">
-              <!-- no link to Collectons.css? -->
+        <link rel="stylesheet" type="text/css" href="styles/player_bar.css">
     </head>
     <body class="album">
         <nav class="navbar"> <!--nav bar -->
@@ -29,12 +29,41 @@ type="text/css" href="styles/normalize.css">
                     <h2 class="album-view-title">The Colors</h2>
                     <h3 class="album-view-artist">Pablo Picasso</h3>
                     <h5 class="album-view-release-info"> 1909 Spanish Records</h5>
-                    
                 </div>
             </section>
             <table class="album-view-song-list"> 
             </table>
         </main>
+        <section class="player-bar">
+            <div class="container">
+                 <div class ="player-bar-control-group left-controls">
+                     <a class="previous">
+                        <span class="ion-skip-backward"></span>
+                     </a>
+                     <a class="play-pause">
+                        <span class="ion-play"></span>
+                     </a>
+                     <a class="next">
+                        <span class="ion-skip-forward"></span>
+                     </a>
+                </div>
+                <div class="player-bar-control-group currently-playing">
+                    <h2 class="song-name">The Way You Make Me Feel</h2>
+                    <h2 class="artist-song-mobile">The Way You Make Me Feel - Michael Jackson</h2>
+                    <div class="seek-control">
+                        <div class="seek-bar">
+                            <div class="fill"></div>
+                            <div class="thumb"></div>
+                        </div>
+                        <div class="current-time">2:30</div>
+                        <div class="total-time">4:45</div>
+                    </div>
+                    <h3 class="artist-name">Michael Jackson</h3>
+                </div>
+                <div class="player-bar-control-group right-controls">
+                </div>
+            </div>
+        </section>
         <script src="scripts/album.js"></script>
     </body>
 </html>
