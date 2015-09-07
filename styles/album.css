@@ -34,6 +34,11 @@ body.album {
     font-size: 0.75rem;
 }
 
+@media (max-width: 64rem) and (min-width: 20rem) {
+    body.album {
+        padding-bottom: 200px;
+    }
+
 .album-view-song-list {
     width: 90%;
     margin: 1.5rem auto;
