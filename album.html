@@ -31,7 +31,15 @@ type="text/css" href="styles/normalize.css">
                     <h5 class="album-view-release-info"> 1909 Spanish Records</h5>
                 </div>
             </section>
-            <table class="album-view-song-list"> 
+            <table class="album-view-song-list">
+                <thead>
+                     <tr>
+                         <th>Track #</th>
+                         <th>Title</th>
+                         <th>Duration</th>
+                         <th>Play Count</th>
+                     </tr>
+                 </thead>
             </table>
         </main>
         <section class="player-bar">
@@ -48,8 +56,8 @@ type="text/css" href="styles/normalize.css">
                      </a>
                 </div>
                 <div class="player-bar-control-group currently-playing">
-                    <h2 class="song-name">The Way You Make Me Feel</h2>
-                    <h2 class="artist-song-mobile">The Way You Make Me Feel - Michael Jackson</h2>
+                    <h2 class="song-name"></h2>
+                    <h2 class="artist-song-mobile"></h2>
                     <div class="seek-control">
                         <div class="seek-bar">
                             <div class="fill"></div>
@@ -58,7 +66,7 @@ type="text/css" href="styles/normalize.css">
                         <div class="current-time">2:30</div>
                         <div class="total-time">4:45</div>
                     </div>
-                    <h3 class="artist-name">Michael Jackson</h3>
+                    <h3 class="artist-name"></h3>
                 </div>
                 <div class="player-bar-control-group right-controls">
                     <div class="volume">
@@ -71,7 +79,8 @@ type="text/css" href="styles/normalize.css">
                 </div>
             </div>
         </section>
-         <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+        <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+        <script src="scripts/fixtures.js"></script>
         <script src="scripts/album.js"></script>
     </body>
 </html>
