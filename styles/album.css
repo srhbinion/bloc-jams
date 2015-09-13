@@ -34,11 +34,6 @@ body.album {
     font-size: 0.75rem;
 }
 
-@media (max-width: 64rem) and (min-width: 20rem) {
-    body.album {
-        padding-bottom: 200px;
-    }
-
 .album-view-song-list {
     width: 90%;
     margin: 1.5rem auto;
@@ -49,7 +44,7 @@ body.album {
 .album-view-song-item {
     height: 3rem;
     /*line under song list*/ 
-    border-bottom: 1px solid rgba(255,255,255,0.5)
+    border-bottom: 1px solid rgba(255,255,255,0.5);
 }
 
 .song-item-number {
@@ -96,7 +91,7 @@ body.album {
 /*Responsive - smaller devices*/
 @media (max-width: 40rem) and (min-width: 20rem) {
     .album-view-details {
-        text-align:center
+        text-align:center;
     }
     .album-view-title {
         margin-top: 0;
