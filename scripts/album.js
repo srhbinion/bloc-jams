@@ -10,7 +10,7 @@ var createSongRow = function (songNumber, songName, songLength) {
     var $row = $(template);
   
     var clickHandler = function () {
-        var songNumber = parseInt($(this).attr('data-song-number'));
+        var songNumber = parseInt($(this).attr("data-song-number"));
 
         if (currentlyPlayingSongNumber !== null) {
     // Revert to song # for currently song because user started new song.
@@ -35,18 +35,16 @@ var createSongRow = function (songNumber, songName, songLength) {
         };
     };
 
-    var onHover = function(event) {
+    var onHover = function (event) {
         var songNumberCell = $(this).find(".song-item-number");
         var songNumber = parseInt(songNumberCell.attr("data-song-number"));
-        console.log(".song-item-number");
-
 
         if (songNumber !== currentlyPlayingSongNumber) {
             songNumberCell.html(playButtonTemplate);
         }
     };
     
-    var offHover = function(event) {
+    var offHover = function (event) {
         var songNumberCell = $(this).find(".song-item-number");
         var songNumber = parseInt(songNumberCell.attr("data-song-number"));
 
@@ -95,15 +93,14 @@ var trackIndex = function (album, song) {
      return album.songs.indexOf(song);
  };
 
-var getSongNumberCell = function(number) {
-    console.log(number);
+var getSongNumberCell = function (number) {
     var element = $('.song-item-number[data-song-number="' + number + '"]');
     return element;
 };
 
 var nextSong = function () {
     //gets song number.Conditional Operator assigns value to condition.
-    var getLastSongNumber = function(index) {
+    var getLastSongNumber = function (index) {
         return index == 0 ? currentAlbum.songs.length : index;
     };
     
@@ -137,7 +134,7 @@ var nextSong = function () {
 };
 
 var previousSong = function () {
-    var getLastSongNumber = function(index) {
+    var getLastSongNumber = function (index) {
         return index == (currentAlbum.songs.length - 1) ? 1 : index + 2;
     };
     
@@ -186,9 +183,8 @@ var $previousButton = $(".left-controls .previous");
 var $nextButton = $(".left-controls .next");
 
 //First Load
-$(document).ready(function() {
+$(document).ready(function () {
     setCurrentAlbum(albumPicasso);
-    
     $previousButton.click(previousSong);
     $nextButton.click(nextSong);
 
