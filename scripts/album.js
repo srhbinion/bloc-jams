@@ -1,7 +1,5 @@
 var $ = jQuery;
 
-var currentAlbum, currentSongFromAlbum, currentSoundFile, $previousButton, $nextButton, createSongRow, setCurrentAlbum, trackIndex, getSongNumberCell, setSong, nextSong, previousSong, currentlyPlayingSongNumber, currentVolume, setVolume, updatePlayerBarSong;
-
 //Album button templates
 var playButtonTemplate = '<a class="album-song-button"><span class="ion-play"></span></a>';
 var pauseButtonTemplate = '<a class="album-song-button"><span class="ion-pause"></span></a>';
@@ -13,6 +11,7 @@ var currentAlbum = null;
 var currentlyPlayingSongNumber = null;
 var currentSongFromAlbum = null;
 var currentSoundFile = null;
+
 /**
  * Creates a song row on the playlist table
  * @param  {Number} songNumber  - Integer representing the songs order in the album
@@ -20,22 +19,21 @@ var currentSoundFile = null;
  * @param  {Number} songLength - Integer Duration of song in milliseconds
  * @return {Object}             - jQuery object representing an album table row
  */
-createSongRow = function (songNumber, songName, songLength) {
-    var template, $row, clickHandler, onHover, offHover;
+var createSongRow = function (songNumber, songName, songLength) {
 
-    template =
+    var template =
      '<tr class="album-view-song-item">'
      + '  <td class="song-item-number" data-song-number="' + songNumber + '">' + songNumber + '</td>'
      + '  <td class="song-item-title">' + songName + '</td>'
      + '  <td class="song-item-duration">' + songLength + '</td>'
      + '</tr>';
 
-    $row = $(template);
+    var $row = $(template);
 
     /**
      * Sets the play or pause buttons of the active song. Triggers start and stop of audio file.
      */
-    clickHandler = function () { 
+    var clickHandler = function () { 
         var songNumber, currentlyPlayingCell;
 
         songNumber = parseInt($(this).attr("data-song-number"), 10);
@@ -72,7 +70,7 @@ createSongRow = function (songNumber, songName, songLength) {
      * @param  {String} event - Looks for song number representing the song in the album order
      * @return {Number}      - An Integer that makes play and pause buttons visible if sting matches
      */
-    onHover = function (event) {
+    var onHover = function (event) {
         var songNumberCell, songNumber;
         songNumberCell = $(this).find(".song-item-number");
         songNumber = parseInt(songNumberCell.attr("data-song-number"), 10);
@@ -87,7 +85,7 @@ createSongRow = function (songNumber, songName, songLength) {
      * @param  {String} event - Looks for a song number representing the song in the album order
      * @return {Number}      - An Integer that makes play and pause buttons disapear if sting no longer matches
      */
-    offHover = function (event) {
+    var offHover = function (event) {
         var songNumberCell, songNumber;
         songNumberCell = $(this).find(".song-item-number");
         songNumber = parseInt(songNumberCell.attr("data-song-number"), 10);
@@ -115,16 +113,15 @@ createSongRow = function (songNumber, songName, songLength) {
  * Updates the "currentalbum" property.
  * @param {Object} album - Object literal representing the album
  */ 
-setCurrentAlbum = function(album) {
-    var $albumTitle, $albumArtist, $albumReleaseInfo, $albumImage, $albumSongList;
+var setCurrentAlbum = function(album) {
     
     currentAlbum = album;
 
-    $albumTitle = $(".album-view-title");
-    $albumArtist = $(".album-view-artist");
-    $albumReleaseInfo = $(".album-view-release-info");
-    $albumImage = $(".album-cover-art");
-    $albumSongList = $(".album-view-song-list");
+    var $albumTitle = $(".album-view-title");
+    var $albumArtist = $(".album-view-artist");
+    var $albumReleaseInfo = $(".album-view-release-info");
+    var $albumImage = $(".album-cover-art");
+    var $albumSongList = $(".album-view-song-list");
 
     $albumTitle.text(album.name);
     $albumArtist.text(album.artist);
@@ -148,28 +145,30 @@ setCurrentAlbum = function(album) {
  * @param  {Object} song  - Object litteral representing the song.
  * @return {Number}       - Integer representing the index poitision withing the "song" property of the "album".
  */
-trackIndex = function (album, song) {
+var trackIndex = function (album, song) {
      return album.songs.indexOf(song);
  };
+
 /**
  * Retreves the song number cell for the supplied track number
  * @param  {Number} number  - Integer represening the song's position withing the album
  * @return {String}         - jQuery object representing the song number cell
  */
-getSongNumberCell = function (number) {
+var getSongNumberCell = function (number) {
     var element = $(".song-item-number[data-song-number=\"" + number + "\"]");
     return element;
 };
+
 /**
- * Set the curently selected song and modifty the displaying uniform.
+ * Set the currently selected song and use the buzz API to play music.
  * @param {Number} songNumber - 
  */
-setSong = function(songNumber) {
+var setSong = function(songNumber) {
     if(currentSoundFile) {
         currentSoundFile.stop();
     }
 
-    setSong = parseInt(songNumber, 10);
+    currentlyPlayingSongNumber = parseInt(songNumber, 10);
     currentSongFromAlbum = currentAlbum.songs[songNumber - 1];
     // Assign a Buzz object. Pass audio file though current song from Album object.
     currentSoundFile = new buzz.sound(currentSongFromAlbum.audioUrl, {
@@ -180,20 +179,22 @@ setSong = function(songNumber) {
 
     setVolume(currentVolume);
 };
+
 /**
  * Set the sound volume of the music.
  * @param {Number} volume - Set a number 1-100 for the sound level.
  */
-setVolume = function(volume) {
+var setVolume = function(volume) {
     if(currentSoundFile) {
         currentSoundFile.setVolume(volume);
     }
 };
+
 /**
  * Gets and updates the UI with the corrent information about song play status. Sets song number cyles thought the music file.
  * @return {Number} - Index position of the information within an object.
  */
-nextSong = function () {
+var nextSong = function () {
     //gets song number.Conditional Operator assigns value to condition.
     var getLastSongNumber = function (index) {
         return index === 0 ? currentAlbum.songs.length : index;
@@ -209,7 +210,7 @@ nextSong = function () {
     }
 
     //initiates the counter to currently playing song
-    currentlyPlayingSongNumber(currentSongIndex + 1);
+    setSong(currentSongIndex + 1);
     currentSoundFile.play();
     updatePlayerBarSong();
 
@@ -228,11 +229,12 @@ nextSong = function () {
     $lastSongNumberCell.html(lastSongNumber);
 
 };
+
 /**
  * Gets and updates the UI with the corrent information about the music play status. Sets song number cyles thought the music file.
  * @return {Number} - Index position of the information within an object. 
  */
-previousSong = function () {
+var previousSong = function () {
     var getLastSongNumber = function(index) {
         return index == (currentAlbum.songs.length - 1) ? 1 : index + 2;
     };
@@ -244,7 +246,7 @@ previousSong = function () {
         currentSongIndex = currentAlbum.songs.length - 1;
     }
     
-    currentlyPlayingSongNumber = currentSongIndex + 1;
+    setSong(currentSongIndex + 1);
     currentSongFromAlbum = currentAlbum.songs[currentSongIndex];
     
     $(".currently-playing .song-name").text(currentSongFromAlbum.name);
@@ -263,7 +265,7 @@ previousSong = function () {
 /**
  * Changes song file that is displayed in the DOM
  */
-updatePlayerBarSong = function () {
+var updatePlayerBarSong = function () {
     $(".left-controls .play-pause").html(playerBarPauseButton);
     $(".currently-playing .artist-name").text(currentAlbum.artist);
     $(".currently-playing .artist-song-mobile").text(currentSongFromAlbum.name + " - " + currentAlbum.artist);
@@ -274,8 +276,8 @@ updatePlayerBarSong = function () {
  * First items to load on page
  */
 $(document).ready(function () {
-    $previousButton = $(".left-controls .previous");
-    $nextButton = $(".left-controls .next");
+    var $previousButton = $(".left-controls .previous");
+    var $nextButton = $(".left-controls .next");
 
     setCurrentAlbum(albumPicasso);
     $previousButton.click(previousSong);
