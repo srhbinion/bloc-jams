@@ -1,6 +1,6 @@
 var $ = jQuery;
 
-var currentAlbum, currentSongFromAlbum, currentSoundFile, $previousButton, $nextButton, createSongRow, setCurrentAlbum, trackIndex, getSongNumberCell, setSong, nextSong, previousSong, currentlyPlayingSongNumber, updatePlayerBarSong, currentVolume, setVolume;
+var currentAlbum, currentSongFromAlbum, currentSoundFile, $previousButton, $nextButton, createSongRow, setCurrentAlbum, trackIndex, getSongNumberCell, setSong, nextSong, previousSong, currentlyPlayingSongNumber, currentVolume, setVolume, updatePlayerBarSong;
 
 //Album button templates
 var playButtonTemplate = '<a class="album-song-button"><span class="ion-play"></span></a>';
@@ -9,6 +9,10 @@ var playerBarPlayButton = '<span class="ion-play"></span>';
 var playerBarPauseButton = '<span class="ion-pause"></span>';
 var currentVolume = 80;
 
+var currentAlbum = null;
+var currentlyPlayingSongNumber = null;
+var currentSongFromAlbum = null;
+var currentSoundFile = null;
 /**
  * Creates a song row on the playlist table
  * @param  {Number} songNumber  - Integer representing the songs order in the album
@@ -29,7 +33,7 @@ createSongRow = function (songNumber, songName, songLength) {
     $row = $(template);
 
     /**
-     * Sets the play or pause buttons of the active song
+     * Sets the play or pause buttons of the active song. Triggers start and stop of audio file.
      */
     clickHandler = function () { 
         var songNumber, currentlyPlayingCell;
@@ -43,7 +47,7 @@ createSongRow = function (songNumber, songName, songLength) {
         }
         // Switch from Play -> Pause button to indicate new song is playing.
         if (currentlyPlayingSongNumber !== songNumber) {
-            currentlyPlayingSongNumber(songNumber);
+            setSong(songNumber);
             currentSoundFile.play();
 
             $(this).html(pauseButtonTemplate);
@@ -53,12 +57,12 @@ createSongRow = function (songNumber, songName, songLength) {
         } else if (currentlyPlayingSongNumber === songNumber) {
             if (currentSoundFile.isPaused()) {
                 $(this).html(pauseButtonTemplate);
-                $('.left-controls .play-pause').html(playerBarPauseButton);
+                $(".left-controls .play-pause").html(playerBarPauseButton);
                 currentSoundFile.play();
             } else {
                 $(this).html(playButtonTemplate);
-                $('.left-controls .play-pause').html(playerBarPlayButton);
-                currentSoundFile.pause();
+                $(".left-controls .play-pause").html(playerBarPlayButton);
+                currentSoundFile.pause();   
             }
         }
     };
@@ -81,7 +85,7 @@ createSongRow = function (songNumber, songName, songLength) {
     /**
      * Deactivates play or pause button when cursor action is not hovering
      * @param  {String} event - Looks for a song number representing the song in the album order
-     * @return {Number}      - Integer makes play and pause buttons disapear if sting no longer matches
+     * @return {Number}      - An Integer that makes play and pause buttons disapear if sting no longer matches
      */
     offHover = function (event) {
         var songNumberCell, songNumber;
@@ -259,7 +263,7 @@ previousSong = function () {
 /**
  * Changes song file that is displayed in the DOM
  */
-var updatePlayerBarSong = function () {
+updatePlayerBarSong = function () {
     $(".left-controls .play-pause").html(playerBarPauseButton);
     $(".currently-playing .artist-name").text(currentAlbum.artist);
     $(".currently-playing .artist-song-mobile").text(currentSongFromAlbum.name + " - " + currentAlbum.artist);
