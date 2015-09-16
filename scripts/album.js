@@ -60,7 +60,7 @@ createSongRow = function (songNumber, songName, songLength) {
                 $('.left-controls .play-pause').html(playerBarPlayButton);
                 currentSoundFile.pause();
             }
-        };
+        }
     };
 
     /**
@@ -238,7 +238,7 @@ previousSong = function () {
     
     if (currentSongIndex < 0) {
         currentSongIndex = currentAlbum.songs.length - 1;
-    };
+    }
     
     currentlyPlayingSongNumber = currentSongIndex + 1;
     currentSongFromAlbum = currentAlbum.songs[currentSongIndex];
