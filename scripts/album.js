@@ -19,11 +19,12 @@ var currentVolume = 80;
 createSongRow = function (songNumber, songName, songLength) {
     var template, $row, clickHandler, onHover, offHover;
 
-    template = "<tr class=\"album-view-song-item\">" 
-    + "<td class=\"song-item-number\" \"data-song-number=\"" 
-    + songNumber + ">" + songNumber + "</td>" + "<td class=\"song-item-title\">" 
-    + songName + "</td>" + "<td class=\"song-item-duration\">" 
-    + songLength + "</td>" + "</tr>";
+    template =
+     '<tr class="album-view-song-item">'
+     + '  <td class="song-item-number" data-song-number="' + songNumber + '">' + songNumber + '</td>'
+     + '  <td class="song-item-title">' + songName + '</td>'
+     + '  <td class="song-item-duration">' + songLength + '</td>'
+     + '</tr>';
 
     $row = $(template);
 
@@ -42,7 +43,7 @@ createSongRow = function (songNumber, songName, songLength) {
         }
         // Switch from Play -> Pause button to indicate new song is playing.
         if (currentlyPlayingSongNumber !== songNumber) {
-            setSong(songNumber);
+            currentlyPlayingSongNumber(songNumber);
             currentSoundFile.play();
 
             $(this).html(pauseButtonTemplate);
@@ -184,7 +185,10 @@ setVolume = function(volume) {
         currentSoundFile.setVolume(volume);
     }
 };
-
+/**
+ * Gets and updates the UI with the corrent information about song play status. Sets song number cyles thought the music file.
+ * @return {Number} - Index position of the information within an object.
+ */
 nextSong = function () {
     //gets song number.Conditional Operator assigns value to condition.
     var getLastSongNumber = function (index) {
@@ -220,44 +224,47 @@ nextSong = function () {
     $lastSongNumberCell.html(lastSongNumber);
 
 };
-
+/**
+ * Gets and updates the UI with the corrent information about the music play status. Sets song number cyles thought the music file.
+ * @return {Number} - Index position of the information within an object. 
+ */
 previousSong = function () {
-    var getLastSongNumber = function (index) {
-        return index === (currentAlbum.songs.length - 1) ? 1 : index + 2;
+    var getLastSongNumber = function(index) {
+        return index == (currentAlbum.songs.length - 1) ? 1 : index + 2;
     };
-
+    
     var currentSongIndex = trackIndex(currentAlbum, currentSongFromAlbum);
         currentSongIndex--;
-
+    
     if (currentSongIndex < 0) {
         currentSongIndex = currentAlbum.songs.length - 1;
-    }
-
-    currentlyPlayingSongNumber(currentSongIndex + 1);
-    currentSoundFile.play();
-    updatePlayerBarSong();
-
+    };
+    
+    currentlyPlayingSongNumber = currentSongIndex + 1;
+    currentSongFromAlbum = currentAlbum.songs[currentSongIndex];
+    
     $(".currently-playing .song-name").text(currentSongFromAlbum.name);
     $(".currently-playing .artist-name").text(currentAlbum.name);
     $(".currently-playing .artist-song-mobile").text(currentSongFromAlbum.name + " - " + currentAlbum.name);
     $(".left-controls .play-pause").html(playerBarPauseButton);
-
+    
     var lastSongNumber = getLastSongNumber(currentSongIndex);
     var $previousSongNumberCell = getSongNumberCell(currentlyPlayingSongNumber);
     var $lastSongNumberCell = getSongNumberCell(lastSongNumber);
-
+    
     $previousSongNumberCell.html(pauseButtonTemplate);
     $lastSongNumberCell.html(lastSongNumber);
 };
 
-updatePlayerBarSong = function () {
+/**
+ * Changes song file that is displayed in the DOM
+ */
+var updatePlayerBarSong = function () {
     $(".left-controls .play-pause").html(playerBarPauseButton);
     $(".currently-playing .artist-name").text(currentAlbum.artist);
     $(".currently-playing .artist-song-mobile").text(currentSongFromAlbum.name + " - " + currentAlbum.artist);
     $(".left-controls .play-pause").html(playerBarPauseButton);
 };
-
-
 
 /**
  * First items to load on page
