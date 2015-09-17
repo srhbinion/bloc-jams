@@ -272,14 +272,37 @@ var updatePlayerBarSong = function () {
     $(".left-controls .play-pause").html(playerBarPauseButton);
 };
 
+var togglePlayFromPlayerBar = function() {
+    // if a song is pause AND the play button is clicked:
+    if (currentSoundFile.isPaused && playerBarPlayButton === true) {
+        // change the song number cell
+        setSong(songNumber);
+        // change the HTML of the player bar's play to pause
+        $(this).html(pauseButtonTemplate);
+        updatePlayerBarSong();
+        // play the song
+        currentSoundFile.play();
+    // if the song is playing and the pause button is clicked
+    } else if (currentlyPlayingSongNumber === true && playerBarPauseButton === true) {
+        //change the HTML of the player bar's play to pause
+        $(this).html(playButtonTemplate);
+        //change the song number from pause to play button
+        $(".left-controls .play-pause").html(playerBarPlayButton);
+        // Pause song
+        currentSoundFile.pause(); 
+    }       
+};
+
 /**
  * First items to load on page
  */
 $(document).ready(function () {
     var $previousButton = $(".left-controls .previous");
     var $nextButton = $(".left-controls .next");
+    var $playPause = $(".left-controls .play-pause");
 
     setCurrentAlbum(albumPicasso);
     $previousButton.click(previousSong);
     $nextButton.click(nextSong);
+    $playPause.click(togglePlayFromPlayerBar);
 });
