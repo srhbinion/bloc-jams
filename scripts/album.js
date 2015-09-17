@@ -286,6 +286,7 @@ var togglePlayFromPlayerBar = function() {
     } else if (currentlyPlayingSongNumber === true && playerBarPauseButton === true) {
         //change the HTML of the player bar's play to pause
         $(this).html(playButtonTemplate);
+        updatePlayerBarSong();
         //change the song number from pause to play button
         $(".left-controls .play-pause").html(playerBarPlayButton);
         // Pause song
