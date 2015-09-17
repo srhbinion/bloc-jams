@@ -272,6 +272,10 @@ var updatePlayerBarSong = function () {
     $(".left-controls .play-pause").html(playerBarPauseButton);
 };
 
+/**
+ * Changes the icons on the player bar to match the song. 
+ * Toggle between the playing and pausing songs.
+ */
 var togglePlayFromPlayerBar = function() {
     // if a song is pause AND the play button is clicked:
     if (currentSoundFile.isPaused && playerBarPlayButton === true) {
