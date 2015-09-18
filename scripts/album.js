@@ -181,6 +181,16 @@ var setSong = function(songNumber) {
 };
 
 /**
+ * Change the position in a song to a specified time.
+ * @param  {Number} time - Time 
+ */
+var seek = function (time) {
+    if (currentSoundFile) {
+        currentSoundFile.setTime(time);
+    }
+};
+
+/**
  * Set the sound volume of the music.
  * @param {Number} volume - Set a number 1-100 for the sound level.
  */
@@ -297,17 +307,95 @@ var togglePlayFromPlayerBar = function() {
         currentSoundFile.pause(); 
     }       
 };
+/**
+ * Binds the seek bar to the time in the file.
+ * @return {Number} Time in seconds.
+ */
+var updateSeekBarWhileSongPlays = function (){
+    if(currentSoundFile) {
+        // Bind the timeip event to the current song file
+        currnetSoundFile.bind("timeupdate", function(event){
+            // method for calculating the fill bar ratio. Returns time in seconds.
+            var seekBarFillRatio = this.getTime() / this.getDuration();
+            var $seekBar = $(".seek-control .seek-bar");
+
+            updateSeekPercentage($seekBar, seekBarFillRatio);
+
+        });
+    }
+};
+
+/**
+ * Update progress bar
+ * @param  {Object} $seekBar         - jQuery object that alters the volumen and playback bar
+ * @param  {Number} seekBarFillRatio - Determine the size of the values
+ */
+var updateSeekPercentage = function($seekBar, seekBarFillRatio) {
+    var offsetXPercent = seekBarFillRatio * 100;
+
+    // Makes sure our percentage is not greater than 100
+    offsetXPercent = Math.max(0, offsetXPercent);
+    offsetXPercent = Math.min(100, offsetXPercent);
+    // convert percentahe to a string
+    var percentageString = offsetXPercent + "%";
+    $seekBar.find(".fill").width(percentageString);
+    $seekBar.find(".thumb").css({left:percentageString});
+    
+};
+
+/**
+ * Makes the seek bar draggable. 
+ * Allows seek bar to mve with the playing music.
+ */
+var setupSeekBars = function() {
+    var $seekBars = $("player-bar .seek-bar");
+
+    $seekBars.click(function(event) {
+        //pageX hold the horizontal coordinate at the event occured
+        var offsetX = event.pageX - $(this).offset().left;
+        var barWidth = $(this).width();
+        // equasion to figure out the length of the total bar
+        var seekBarFillRatio = offsetX / barWidth;
+        // calling and passing the function
+        updateSeekPercentage($(this), seekBarFillRatio);
+    });
+
+    // select element with thumb and attach a function
+    $seekBars.find(".thumb").mousedown(function(event) {
+        // attach the parent to the seekbar
+        var $seekBar = $(this).parent();
+
+        // Takes a string and wrapps the event in a method. Allows us to drag after mousing down
+        $(document).bind("mousemove.thumb", function(event) {
+            var offsetX = event.pageX - $seekBar.offset().left;
+            var barWidth = $seekBar.width();
+            var seekBarFillRatio = offsetX / barWidth;
+ 
+            updateSeekPercentage($seekBar, seekBarFillRatio);
+        });
+
+        $(document).bind("mouseup.thumb", function() {
+            $(document).unbind("mousemove.thumb");
+            $(document).unbind("mouseup.thumb");
+        });
+
+    });
+
+};
 
 /**
  * First items to load on page
  */
-$(document).ready(function () {
+$(document).ready(function () { 
     var $previousButton = $(".left-controls .previous");
     var $nextButton = $(".left-controls .next");
     var $playPause = $(".left-controls .play-pause");
 
     setCurrentAlbum(albumPicasso);
+    setupSeekBars();
+    
     $previousButton.click(previousSong);
     $nextButton.click(nextSong);
     $playPause.click(togglePlayFromPlayerBar);
+    
 });
