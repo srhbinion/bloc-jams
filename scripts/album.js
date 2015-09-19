@@ -27,7 +27,7 @@ var currentVolume = 80;
  * @param  {Number} songLength  - Integer Duration of song in milliseconds
  * @return {Object}             - jQuery object representing an album table row
  */
-var createSongRow = function (songNumber, songName, songLength) {
+var createSongRow = function(songNumber, songName, songLength) {
 
     var template =
      ' <tr class="album-view-song-item"> ' +
@@ -41,7 +41,7 @@ var createSongRow = function (songNumber, songName, songLength) {
     /**
      * Sets the play or pause buttons of the active song. Triggers start and stop of audio file.
      */
-    var clickHandler = function () { 
+    var clickHandler = function() { 
 
         var songNumber = parseInt($(this).attr("data-song-number"), 10);
         // Stopped - Revert to song # for currently song because user started new song.
@@ -86,7 +86,7 @@ var createSongRow = function (songNumber, songName, songLength) {
      * @param  {String} event - Looks for song number representing the song in the album order
      * @return {Number}      - An Integer that makes play and pause buttons visible if sting matches
      */
-    var onHover = function (event) {
+    var onHover = function(event) {
         var songNumberCell = $(this).find(".song-item-number");
         var songNumber = parseInt(songNumberCell.attr("data-song-number"), 10);
 
@@ -100,7 +100,7 @@ var createSongRow = function (songNumber, songName, songLength) {
      * @param  {String} event - Looks for a song number representing the song in the album order
      * @return {Number}      - An Integer that makes play and pause buttons disapear if sting no longer matches
      */
-    var offHover = function (event) {
+    var offHover = function(event) {
         var songNumberCell = $(this).find(".song-item-number");
         var songNumber = parseInt(songNumberCell.attr("data-song-number"), 10);
 
@@ -149,17 +149,17 @@ var setCurrentAlbum = function(album) {
     } 
 };
 
-var setCurrentTimeInPlayerBar = function (currentTime) {
+var setCurrentTimeInPlayerBar = function(currentTime) {
     $(".current-time").text(filterTimeCode(currentTime));
 };
 
-var setTotalTimeInPlayerBar =  function (totalTime){
+var setTotalTimeInPlayerBar =  function(totalTime){
     if (! isNaN(totalTime)) {
         $(".total-time").text(filterTimeCode(totalTime));
     }
 };
 
-var filterTimeCode =  function (timeInSeconds) {
+var filterTimeCode =  function(timeInSeconds) {
     var timeAsFloat = parseFloat(timeInSeconds);
     
     var exactMinutes = Math.floor(timeAsFloat / 60);
@@ -187,7 +187,7 @@ var filterTimeCode =  function (timeInSeconds) {
  * @param  {Object} song  - Object litteral representing the song.
  * @return {Number}       - Integer representing the index poitision withing the "song" property of the "album".
  */
-var trackIndex = function (album, song) {
+var trackIndex = function(album, song) {
      return album.songs.indexOf(song);
  };
 
@@ -196,7 +196,7 @@ var trackIndex = function (album, song) {
  * @param  {Number} number  - Integer represening the song's position withing the album
  * @return {String}         - jQuery object representing the song number cell
  */
-var getSongNumberCell = function (number) {
+var getSongNumberCell = function(number) {
     return $(".song-item-number[data-song-number=\"" + number + "\"]");
 };
 
@@ -210,7 +210,7 @@ var setSong = function(songNumber) {
         updateSeekBarWhileSongPlays();
     }
 
-    currentlyPlayingSongNumber = parseInt(number, 10);
+    currentlyPlayingSongNumber = parseInt(songNumber, 10);
     currentSongFromAlbum = currentAlbum.songs[songNumber - 1];
     // Assign a Buzz object. Pass audio file though current song from Album object.
     currentSoundFile = new buzz.sound(currentSongFromAlbum.audioUrl, {
@@ -226,7 +226,7 @@ var setSong = function(songNumber) {
  * Change the position in a song to a specified time.
  * @param  {Number} time - Time 
  */
-var seek = function (time) {
+var seek = function(time) {
     if (currentSoundFile) {
         currentSoundFile.setTime(time);
     }
@@ -246,15 +246,16 @@ var setVolume = function(volume) {
  * Gets and updates the UI with the corrent information about song play status. Sets song number cyles thought the music file.
  * @return {Number} - Index position of the information within an object.
  */
-var nextSong = function () {
+var nextSong = function() {
     //gets song number.Conditional Operator assigns value to condition.
-    var getLastSongNumber = function (index) {
+    var getLastSongNumber = function(index) {
         return index === 0 ? currentAlbum.songs.length : index;
     };
 
     //set up a counter to increase
     var currentSongIndex = trackIndex(currentAlbum, currentSongFromAlbum);
-    currentSongIndex++;
+    
+        currentSongIndex++;
 
     //wraps the song index to the beginnging
     if (currentSongIndex >= currentAlbum.songs.length) {
@@ -267,13 +268,7 @@ var nextSong = function () {
     updateSeekBarWhileSongPlays();
     updatePlayerBarSong();
 
-    //update player bar
-    //$(".currently-playing .song-name").text(currentSongFromAlbum.name);
-    //$(".currently-playing .artist-name").text(currentAlbum.name);
-    //$(".currently-playing .artist-song-mobile").text(currentSongFromAlbum.name + " - " + currentAlbum.name);
-    //$(".left-controls .play-pause").html(playerBarPauseButton);
-
-    //update html
+   //update html
     var lastSongNumber = getLastSongNumber(currentSongIndex);
     var $nextSongNumberCell = getSongNumberCell(currentlyPlayingSongNumber);
     var $lastSongNumberCell = getSongNumberCell(lastSongNumber);
@@ -287,12 +282,13 @@ var nextSong = function () {
  * Gets and updates the UI with the corrent information about the music play status. Sets song number cyles thought the music file.
  * @return {Number} - Index position of the information within an object. 
  */
-var previousSong = function () {
+var previousSong = function() {
     var getLastSongNumber = function(index) {
         return index == (currentAlbum.songs.length - 1) ? 1 : index + 2;
     };
     
     var currentSongIndex = trackIndex(currentAlbum, currentSongFromAlbum);
+        
         currentSongIndex--;
     
     if (currentSongIndex < 0) {
@@ -300,13 +296,10 @@ var previousSong = function () {
     }
     
     setSong(currentSongIndex + 1);
-    currentSongFromAlbum = currentAlbum.songs[currentSongIndex];
-    
-    $(".currently-playing .song-name").text(currentSongFromAlbum.name);
-    $(".currently-playing .artist-name").text(currentAlbum.name);
-    $(".currently-playing .artist-song-mobile").text(currentSongFromAlbum.name + " - " + currentAlbum.name);
-    $(".left-controls .play-pause").html(playerBarPauseButton);
-    
+    currentSoundFile.play();
+    updateSeekBarWhileSongPlays();
+    updatePlayerBarSong();
+
     var lastSongNumber = getLastSongNumber(currentSongIndex);
     var $previousSongNumberCell = getSongNumberCell(currentlyPlayingSongNumber);
     var $lastSongNumberCell = getSongNumberCell(lastSongNumber);
@@ -318,11 +311,14 @@ var previousSong = function () {
 /**
  * Changes song file that is displayed in the DOM
  */
-var updatePlayerBarSong = function () {
+var updatePlayerBarSong = function() {
     $(".currently-playing .song-name").text(currentSongFromAlbum.name);
     $(".currently-playing .artist-name").text(currentAlbum.artist);
     $(".currently-playing .artist-song-mobile").text(currentSongFromAlbum.name + " - " + currentAlbum.artist);
     $(".left-controls .play-pause").html(playerBarPauseButton);
+    currentSoundFile.bind('timeupdate', function(event) {
+        setTotalTimeInPlayerBar(currentSoundFile.getDuration());    
+    });   
 };
 
 /**
@@ -389,7 +385,7 @@ var updateSeekPercentage = function($seekBar, seekBarFillRatio) {
 var setupSeekBars = function() {
     var $seekBars = $(".player-bar .seek-bar");
 
-     $seekBars.click(function(event) {
+    $seekBars.click(function(event) {
         //pageX hold the horizontal coordinate at the event occured
         var offsetX = event.pageX - $(this).offset().left;
         var barWidth = $(this).width();
@@ -436,7 +432,7 @@ var setupSeekBars = function() {
 /**
  * First items to load on page
  */
-$(document).ready(function () { 
+$(document).ready(function() { 
     setCurrentAlbum(albumPicasso);
     setupSeekBars();
     
