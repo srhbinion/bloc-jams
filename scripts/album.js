@@ -47,6 +47,11 @@ var createSongRow = function (songNumber, songName, songLength) {
         if (currentlyPlayingSongNumber !== songNumber) {
             setSong(songNumber);
             currentSoundFile.play();
+            updateSeekBarWhileSongPlays();
+
+            var $volumeFill = $(".volume .fill");
+            var $volumeThumb = $(".volume .thumb");
+            $volumeThumb.css({left: currentVolume + "%"});
 
             $(this).html(pauseButtonTemplate);
             updatePlayerBarSong();
@@ -57,6 +62,7 @@ var createSongRow = function (songNumber, songName, songLength) {
                 $(this).html(pauseButtonTemplate);
                 $(".left-controls .play-pause").html(playerBarPauseButton);
                 currentSoundFile.play();
+                updateSeekBarWhileSongPlays();
             } else {
                 $(this).html(playButtonTemplate);
                 $(".left-controls .play-pause").html(playerBarPlayButton);
@@ -166,6 +172,7 @@ var getSongNumberCell = function (number) {
 var setSong = function(songNumber) {
     if(currentSoundFile) {
         currentSoundFile.stop();
+        updateSeekBarWhileSongPlays();
     }
 
     currentlyPlayingSongNumber = parseInt(songNumber, 10);
@@ -222,6 +229,7 @@ var nextSong = function () {
     //initiates the counter to currently playing song
     setSong(currentSongIndex + 1);
     currentSoundFile.play();
+    updateSeekBarWhileSongPlays();
     updatePlayerBarSong();
 
     //update player bar
@@ -311,10 +319,10 @@ var togglePlayFromPlayerBar = function() {
  * Binds the seek bar to the time in the file.
  * @return {Number} Time in seconds.
  */
-var updateSeekBarWhileSongPlays = function (){
+var updateSeekBarWhileSongPlays = function() {
     if(currentSoundFile) {
         // Bind the timeip event to the current song file
-        currnetSoundFile.bind("timeupdate", function(event){
+        currentSoundFile.bind("timeupdate", function(event){
             // method for calculating the fill bar ratio. Returns time in seconds.
             var seekBarFillRatio = this.getTime() / this.getDuration();
             var $seekBar = $(".seek-control .seek-bar");
@@ -339,7 +347,7 @@ var updateSeekPercentage = function($seekBar, seekBarFillRatio) {
     // convert percentahe to a string
     var percentageString = offsetXPercent + "%";
     $seekBar.find(".fill").width(percentageString);
-    $seekBar.find(".thumb").css({left:percentageString});
+    $seekBar.find(".thumb").css({left: percentageString});
     
 };
 
@@ -348,15 +356,20 @@ var updateSeekPercentage = function($seekBar, seekBarFillRatio) {
  * Allows seek bar to mve with the playing music.
  */
 var setupSeekBars = function() {
-    var $seekBars = $("player-bar .seek-bar");
+    var $seekBars = $(".player-bar .seek-bar");
 
-    $seekBars.click(function(event) {
+     $seekBars.click(function(event) {
         //pageX hold the horizontal coordinate at the event occured
         var offsetX = event.pageX - $(this).offset().left;
         var barWidth = $(this).width();
         // equasion to figure out the length of the total bar
         var seekBarFillRatio = offsetX / barWidth;
         // calling and passing the function
+        if ($(this).parent().attr("class") == "seek-control") {
+            seek(seekBarFillRatio * currentSoundFile.getDuration());
+        } else {
+            setVolume(seekBarFillRatio * 100);
+        }
         updateSeekPercentage($(this), seekBarFillRatio);
     });
 
@@ -370,6 +383,12 @@ var setupSeekBars = function() {
             var offsetX = event.pageX - $seekBar.offset().left;
             var barWidth = $seekBar.width();
             var seekBarFillRatio = offsetX / barWidth;
+
+            if ($seekBar.parent().attr("class") == "seek-control") {
+                seek(seekBarFillRatio * currentSoundFile.getDuration());
+            } else {
+                setVolume(seekBarFillRatio);
+            }
  
             updateSeekPercentage($seekBar, seekBarFillRatio);
         });
