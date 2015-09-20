@@ -327,7 +327,7 @@ var updatePlayerBarSong = function() {
  */
 var togglePlayFromPlayerBar = function() {
     // if a song is pause AND the play button is clicked:
-    if (currentSoundFile.isPaused && playerBarPlayButton === true) {
+    if (currentSoundFile.isPaused()) {
         // change the song number cell
         getSongNumberCell(currentlyPlayingSongNumber).html(pauseButtonTemplate);
         // change the HTML of the player bar's play to pause
@@ -335,7 +335,7 @@ var togglePlayFromPlayerBar = function() {
         // play the song
         currentSoundFile.play();
     // if the song is playing and the pause button is clicked
-    } else if (currentlyPlayingSongNumber === true && playerBarPauseButton === true) {
+    } else if (currentlyPlayingSongNumber !== null) {
         //change the HTML of the player bar's play to pause
         getSongNumberCell(currentlyPlayingSongNumber).html(playButtonTemplate);
         $playPauseButton.html(playerBarPlayButton);
